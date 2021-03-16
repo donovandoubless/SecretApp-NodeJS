@@ -1,0 +1,198 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: 0px;
+}
+
+body {
+    background-color: #fed049;
+    background-image: url("https://www.transparenttextures.com/patterns/subtle-zebra-3d.png");
+    font-family: 'Raleway', sans-serif;
+    
+}
+
+main{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered {
+    padding-top: 250px;
+    text-align: center;
+}
+
+.login-container{
+    background: white;
+    height: 50vh;
+    width: 400px;
+    padding: 2%;
+    border-radius: 10px;
+    filter: drop-shadow(0px 3px 5px black);
+    
+}
+
+.login-container h1{
+    
+    font-weight: 900;
+    font-size: 30px;
+    margin-top: 20px;
+    text-align: center;
+}
+.login-alternative{
+    margin-top: 20px;    
+}
+.login-alternative p{
+    margin-bottom: 5px;    
+}
+.login-container-bottom{
+    text-align: center;
+    margin: 30px 0px 5px;
+}
+.register-container{
+    background: white;
+    height: 55vh;
+    width: 400px;
+    padding: 2%;
+    border-radius: 10px;
+    filter: drop-shadow(0px 3px 5px black);
+    
+}
+
+.register-container h1{
+    text-align: center;
+    font-weight: 900;
+}
+
+.details{
+    margin-top: 20px;
+}
+
+
+.secret-icon {
+    height: 150px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0px 3px 5px black);
+    animation: drop 1.5s ease;
+}
+
+
+@keyframes drop{
+    0%{
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.register-button{
+    font-weight: 500;
+    text-transform: uppercase;
+    background-color: #282846;
+    color: white;
+    width: 100%;
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 35px;
+}
+
+.register-button:hover {
+    background-color:#007580;
+    box-shadow: 0 5px 15px #007580;
+} 
+
+
+
+.social-button-container{
+    
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    
+}
+.social-button{
+   
+    background: white;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    height: 30px;
+    width: 157px;
+    padding: 5px 20px 30px;
+    border-radius: 5px;
+    border-style: solid ;
+    border-width: thin;
+    border-color: cadetblue;
+    
+    
+}
+.social-button:hover {
+    background: #f9fad5;
+    box-shadow: 0 5px 15px #007580;
+}
+
+.social-button img{
+    height: 17px;
+
+}
+
+a .social-button{
+    color:#282846;
+}
+
+
+.button-style{
+    margin-right: 20px;
+}
+
+.secret-input{
+    margin:20px;
+}
+
+.footer-style{
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+   text-align: center;
+   background-color: rgb(73, 73, 73);
+}
+
+.footer-style p{
+    font-size: 0.9rem;
+    color: #f9fad5;
+    margin: 5px 0px 5px;
+}
+
+a{
+    text-decoration: none;
+    margin: 0;
+    
+}
+
+
+.secret-text{
+    background-color:black;
+    margin: 5px 0px;
+    padding: 10px;
+}
+
+.secret-text p{
+    margin: 0;
+    color: white;
+    font-size: 40px;
+}
+
+.secret-button-container{
+    margin: 10px 0px 60px;
+}
+
+.container h1{
+    font-size: 5rem;
+}

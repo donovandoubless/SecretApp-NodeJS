@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+
+<div class="jumbotron centered">
+    <div class="container"> 
+        <h1>Welcome to Secrets page</h1>
+        <p>Share your secret now!</p>
+        <hr>
+         <form action="/submit" method="POST">
+            <div class="form-group secret-input">
+              <input type="text" class="form-control text-center" name="secret" placeholder="What's your secret?">
+            </div>
+            <button type="submit" class="btn btn-dark btn-lg">Submit</button>
+          </form>
+      
+    </div>
+</div>
+<%- include('partials/footer') %>
+
+
+
