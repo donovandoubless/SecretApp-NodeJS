@@ -9,6 +9,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
+const alert = require("alert");
 
 const app = express();
 
@@ -32,7 +33,8 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     googleId: String,
-    facebookId: String
+    facebookId: String,
+    secret: [String]
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -64,6 +66,7 @@ passport.use(new GoogleStrategy({
     });
   }
 ));
+
 
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
@@ -137,8 +140,9 @@ app.route("/register")
     
     })
     .post(function(req,res){
-
-        User.register({username: req.body.username}, req.body.password, function(err,user){
+        
+        if(req.body.password === req.body.chackPassword){
+            User.register({username: req.body.username}, req.body.password, function(err,user){
                 if(err){
                     console.log(err);
                     res.redirect("/register");
@@ -148,6 +152,11 @@ app.route("/register")
                     });
                 }
             });
+        } else {
+            alert("ERROR");
+            res.redirect("/register");
+        }
+       
                
     });
 
@@ -163,7 +172,16 @@ app.get("/logout", function(req,res){
 app.get("/secrets", function(req,res){
     
     if(req.isAuthenticated()){
-        res.render("secrets");
+        User.find({"secret": {$ne: null}}, function(err, foundUser){
+            if(err){
+                console.log(err);
+            } else {
+                if (foundUser) {
+                    res.render("secrets", {userWithSecrets:foundUser});
+                }
+            }
+        })
+        
     } else {
         res.redirect("/login");
     
@@ -171,11 +189,33 @@ app.get("/secrets", function(req,res){
    
 });
 
-app.get("/submit", function(req,res){
- 
-    res.render("submit");
-    
-});
+app.route("/submit")
+    .get(function(req,res){
+        
+        if(req.isAuthenticated()){
+            res.render("submit");
+          } else {
+            res.redirect("/login");
+          }
+        
+    })
+    .post(function(req,res){
+
+        const submitSecret = req.body.secret
+
+       User.findById(req.user.id, function(err,foundUser){
+           if(err){
+               console.log(err);
+           } else {
+               if(foundUser){
+                   foundUser.secret.push(submitSecret);
+                   foundUser.save(function(){
+                       res.redirect("/secrets");
+                   });
+               }
+           }
+       });
+    });
 
 app.listen(3000, function(){
     console.log("Server is running on server 3000");
