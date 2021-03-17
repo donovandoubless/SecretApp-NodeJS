@@ -7,6 +7,7 @@ const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
 
 const app = express();
@@ -28,9 +29,10 @@ mongoose.connect('mongodb://localhost:27017/userSecretDB', {useNewUrlParser: tru
 
 
 const userSchema = new mongoose.Schema({
-    email: String,
+    username: String,
     password: String,
-    googleId: String
+    googleId: String,
+    facebookId: String
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -58,6 +60,20 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(err, user);
+    });
+  }
+));
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:3000/auth/facebook/secrets",
+    profileFields: ['id', 'emails', 'name'] 
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({username:profile.emails[0].value, facebookId: profile.id }, function (err, user) {
+        console.log(profile);
       return cb(err, user);
     });
   }
@@ -79,12 +95,23 @@ app.get("/auth/google/secrets",
     res.redirect("/secrets");
   });
 
+  app.get('/auth/facebook',
+  passport.authenticate('facebook', { scope: ["email"]}),
+      function(req, res){
+  });
+
+app.get("/auth/facebook/secrets",
+  passport.authenticate("facebook", { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect("/secrets");
+  });
 
 app.route("/login")
     .get(function(req,res){
      res.render("login");
 
-    }).post(function(req,res){
+    })
+    .post(function(req,res){
 
         const user = new User({
             username: req.body.username,
@@ -110,16 +137,18 @@ app.route("/register")
     
     })
     .post(function(req,res){
+
         User.register({username: req.body.username}, req.body.password, function(err,user){
-            if(err){
-                console.log(err);
-                res.redirect("/register");
-            } else {
-                passport.authenticate("local")(req, res, function(){
-                    res.redirect("/secrets");
-                });
-            }
-        });
+                if(err){
+                    console.log(err);
+                    res.redirect("/register");
+                } else {
+                    passport.authenticate("local")(req, res, function(){
+                        res.redirect("/secrets");
+                    });
+                }
+            });
+               
     });
 
 
