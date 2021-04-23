@@ -162,7 +162,7 @@ a {
 }
 
 .secret-text {
-	background-color: black;
+	background-color: #181818;
 	margin: 5px 0px;
 	padding: 10px;
 	position: relative;
@@ -170,7 +170,7 @@ a {
 
 .secret-text button {
 	position: absolute;
-	top: 15px;
+	top: 7px;
 	right: 15px;
 }
 
@@ -181,8 +181,10 @@ a {
 
 .secret-text p {
 	margin: 0;
+	padding: 0 5rem;
 	color: white;
-	font-size: 40px;
+	opacity: 0.85;
+	font-size: 20px;
 }
 
 .secret-button-container {
