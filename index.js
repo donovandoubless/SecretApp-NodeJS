@@ -86,7 +86,7 @@ passport.use(
 		{
 			clientID: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-			callbackURL: "http://localhost:3000/auth/google/secrets",
+			callbackURL: process.env.GOOGLE_CALLBACK_URL,
 			userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
 		},
 		function (accessToken, refreshToken, profile, cb) {
@@ -102,7 +102,7 @@ passport.use(
 		{
 			clientID: process.env.FACEBOOK_APP_ID,
 			clientSecret: process.env.FACEBOOK_APP_SECRET,
-			callbackURL: "http://localhost:3000/auth/facebook/secrets",
+			callbackURL: process.env.FACEBOOK_CALLBACK_URL,
 			profileFields: ["id", "emails", "name"],
 		},
 		function (accessToken, refreshToken, profile, cb) {
@@ -298,6 +298,7 @@ app.post("/delete", function (req, res) {
 
 	res.redirect("/mysecrets");
 });
-app.listen(3000, function () {
+
+app.listen(process.env.PORT || 3000, function () {
 	console.log("Server is running on server 3000");
 });
